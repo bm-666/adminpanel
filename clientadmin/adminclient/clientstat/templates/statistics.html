@@ -1,0 +1,15 @@
+{% extends 'index.html'%}
+{% block clients %}
+<div class="container">
+    {% for client in clients %}
+    <div class="clnt">
+        <a href="{{ client.get_absolute_url }}">{{client.username}}</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block content %}
+<a>Hello</a>
+
+{% endblock %}
