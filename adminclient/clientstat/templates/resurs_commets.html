@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+
+
+{% block comment %}
+<h1><center>Отзывы</center></h1>
+<div class="container">
+    <div class="row">
+        {% for i in comments %}
+        
+            <div class="card mycard">
+                
+                <p class="h4 p"> Имя: {{i.author_comment}}</p>
+                <p class="h4 p">Статус: {{i.status_coment}}</p>
+                <p class="mycard p">{{i.text_comment}} </p>
+                <p class="p">Дата: {{i.date_comment}} </p>
+                <p class="like p">Like: {{i.mylike}} </p>
+                <p class="dislike p">Dislike: {{i.dislike}} </p>
+            
+            <br>
+        </div>
+        {% endfor%}
+    </div>
+</div>
+</div>
+{% endblock %}
