@@ -70,10 +70,10 @@ class AuthUserUserPermissions(models.Model):
 class Clients(models.Model):
     username = models.CharField(max_length=100)
     db_key = models.CharField(max_length=100)
-    url_yandex = models.CharField(max_length=200, default='url')
-    url_google = models.CharField(max_length=200, default='url')
-    url_flamp = models.CharField(max_length=200, default='url')
-    url_2gis = models.CharField(max_length=200, default='url')
+    url_yandex = models.CharField(max_length=200)
+    url_google = models.CharField(max_length=200)
+    url_flamp = models.CharField(max_length=200)
+    url_2gis = models.CharField(max_length=200)
 
     class Meta:
         managed = False
@@ -87,18 +87,16 @@ class Clients(models.Model):
     def get_absolute_url(self):
         return f"/clients/{self.db_key}"
 
-
 class Comments(models.Model):
-    comment_resurs = models.CharField(max_length=20, blank=True, null=True)
-    comment_number = models.IntegerField(blank=True, null=True)
-    status_comment = models.CharField(max_length=20, blank=True, null=True)
-    author_comment = models.CharField(max_length=50, blank=True, null=True)
-    text_comment = models.TextField(blank=True, null=True)
-    date_comment = models.CharField(max_length=10, blank=True, null=True)
-    mylike = models.IntegerField(blank=True, null=True)
-    dislike = models.IntegerField(blank=True, null=True)
-    comment_stars = models.IntegerField(blank=True, null=True)
-    comment_key = models.ForeignKey(Clients, models.DO_NOTHING, blank=True, null=True)
+    comment_resurs = models.CharField(max_length=20)
+    comment_number = models.IntegerField()
+    status_coment = models.CharField(max_length=20)
+    author_comment = models.CharField(max_length=50)
+    text_comment = models.TextField()
+    date_comment = models.CharField(max_length=10)
+    mylike = models.IntegerField()
+    dislike = models.IntegerField()
+    comments_key = models.ForeignKey(Clients, models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -150,7 +148,6 @@ class DjangoSession(models.Model):
 
 
 class Flamp(models.Model):
-    name_model = 'flamp'
     date_parse = models.CharField(max_length=20)
     raiting = models.CharField(max_length=5)
     count_comments = models.IntegerField()
@@ -188,7 +185,6 @@ class Google(models.Model):
     def get_absolute_url(self):
         return reverse("comments", kwargs={'db_key':self.table_key.db_key,'resurs':self.name_model})
 
-
 class Twogis(models.Model):
     name_model = 'twogis'
     date_parse = models.CharField(max_length=20)
@@ -207,7 +203,6 @@ class Twogis(models.Model):
     
     def get_absolute_url(self):
         return reverse("comments", kwargs={'db_key':self.table_key.db_key,'resurs':self.name_model})
-
 
 class Yandex(models.Model):
     name_model = 'yandex'
