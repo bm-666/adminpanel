@@ -70,10 +70,10 @@ class AuthUserUserPermissions(models.Model):
 class Clients(models.Model):
     username = models.CharField(max_length=100)
     db_key = models.CharField(max_length=100)
-    url_yandex = models.CharField(max_length=200)
-    url_google = models.CharField(max_length=200)
-    url_flamp = models.CharField(max_length=200)
-    url_2gis = models.CharField(max_length=200)
+    url_yandex = models.CharField(max_length=200, default='url')
+    url_google = models.CharField(max_length=200, default='url')
+    url_flamp = models.CharField(max_length=200, default='url')
+    url_2gis = models.CharField(max_length=200, default='url')
 
     class Meta:
         managed = False
@@ -87,21 +87,35 @@ class Clients(models.Model):
     def get_absolute_url(self):
         return f"/clients/{self.db_key}"
 
+
 class Comments(models.Model):
-    comment_resurs = models.CharField(max_length=20)
-    comment_number = models.IntegerField()
-    status_coment = models.CharField(max_length=20)
-    author_comment = models.CharField(max_length=50)
-    text_comment = models.TextField()
-    date_comment = models.CharField(max_length=10)
-    mylike = models.IntegerField()
-    dislike = models.IntegerField()
-    comments_key = models.ForeignKey(Clients, models.DO_NOTHING)
+    choices = (
+        ('yandex','Яндекс'),
+        ('google','Google'),
+        ('flamp','Flamp'),
+        ('twogis','2Gis')
+
+    )
+    comment_resurs = models.CharField(max_length=20, blank=True, null=True,choices=choices, verbose_name="Ресурс")
+    comment_number = models.IntegerField(blank=True, null=True, verbose_name="Номер комментария")
+    status_comment = models.CharField(max_length=20, blank=True, null=True, verbose_name="Статус")
+    author_comment = models.CharField(max_length=50, blank=True, null=True, verbose_name="Автор")
+    text_comment = models.TextField(blank=True, null=True,verbose_name="Текст")
+    date_comment = models.CharField(max_length=10, blank=True, null=True, verbose_name="Дата")
+    mylike = models.IntegerField(blank=True, null=True, verbose_name="Лайк")
+    dislike = models.IntegerField(blank=True, null=True, verbose_name="Дизлайк")
+    comment_stars = models.IntegerField(blank=True, null=True, verbose_name="Оценка")
+    comment_key = models.ForeignKey(Clients, 
+    models.DO_NOTHING, blank=True, null=True, verbose_name="Клиент", )
 
     class Meta:
         managed = False
         db_table = 'comments'
-
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
+    
+    def __str__(self) :
+        return f'Отзыв {self.comment_key}'
 
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
@@ -148,6 +162,7 @@ class DjangoSession(models.Model):
 
 
 class Flamp(models.Model):
+    name_model = 'flamp'
     date_parse = models.CharField(max_length=20)
     raiting = models.CharField(max_length=5)
     count_comments = models.IntegerField()
@@ -185,6 +200,7 @@ class Google(models.Model):
     def get_absolute_url(self):
         return reverse("comments", kwargs={'db_key':self.table_key.db_key,'resurs':self.name_model})
 
+
 class Twogis(models.Model):
     name_model = 'twogis'
     date_parse = models.CharField(max_length=20)
@@ -203,6 +219,7 @@ class Twogis(models.Model):
     
     def get_absolute_url(self):
         return reverse("comments", kwargs={'db_key':self.table_key.db_key,'resurs':self.name_model})
+
 
 class Yandex(models.Model):
     name_model = 'yandex'
