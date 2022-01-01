@@ -24,7 +24,7 @@ class ResursComments(View):
     @method_decorator(login_required)
     def get(self, request, db_key, resurs):
         id = Clients.objects.get(db_key=db_key).id
-        comments = Comments.objects.filter(comment_resurs=resurs, comment_key=id)
+        comments = Comments.objects.filter(comment_resurs=resurs, comments_key=id)
         return render(request, self.template_name, context={'comments': comments})
 
 class YandexRaiting(Raiting):
