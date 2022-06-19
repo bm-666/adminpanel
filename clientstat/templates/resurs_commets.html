@@ -6,16 +6,29 @@
     <center>Отзывы</center>
 </h1>
 <div class="container">
+    <div class="filter">
+        <button class="button button_type_all" data-filter="all">Все</button>
+        <button class="button button_type_published" data-filter="published">Опубликан</button>
+        <button class="button button_type_delete" data-filter="delete">Удален</button>
+    </div>
     <div class="row">
         {% for i in comments %}
 
-        <div class="card mycard">
+        <div class="card mycard review">
 
             <p class="h4 p"> Имя: {{i.author_comment}}</p>
-            <p class="h4 p">Статус: {{i.status_comment}}</p>
+            {% if i.status_comment == 'Опубликован' %}
+            <p class="h4 p published">Статус: {{i.status_comment}}</p>
+            {% else %}
+            <p class="h4 p delete">Статус: {{i.status_comment}}</p>
+            {% endif %}
+            
             <p class="mycard p">Оценка: {{i.comment_stars}} </p>
             <p class="mycard p">{{i.text_comment}} </p>
             <p class="p">Дата: {{i.date_comment}} </p>
+            {% if i.status_comment == 'Удален'%}
+            <p class="p">Удален: {{i.date_delete}} </p>
+            {% endif %}
             <p class="like p">Like: {{i.mylike}} </p>
             <p class="dislike p">Dislike: {{i.dislike}} </p>
 

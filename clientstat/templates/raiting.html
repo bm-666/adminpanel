@@ -2,6 +2,7 @@
 {% load i18n admin_modify admin_static %}
 
 {% block raiting %}
+{% block to_day_raiting %}
 <div class="container">
     <div class="raiting">
 
@@ -24,5 +25,25 @@
 
     </div>
 </div>
-
 {% endblock %}
+
+{%block all_raiting %}
+<div class="container">
+
+    <div class="text-center ">
+        <h4> История рейтинга</h4>
+    </div>
+    <div class="raiting text-center">
+        {% for i in rating %}
+        <div class="text-center">
+            <a href="{{i.get_absolute_url}}/rating/{{i.date_parse}}"><p class="p-raiting" id="date_parse">{{i.date_parse}}</p>
+            <p class="p-raiting" id="rating">{{i.raiting}}</p>
+            <p class="p-raiting" id="count_comments">{{i.count_comments}}</p>
+            </a>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+{% endblock %}
+
+{% endblock%}
