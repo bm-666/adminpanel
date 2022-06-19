@@ -101,10 +101,11 @@ class Comments(models.Model):
     status_comment = models.CharField(max_length=20, blank=True, null=True, verbose_name="Статус")
     author_comment = models.CharField(max_length=50, blank=True, null=True, verbose_name="Автор")
     text_comment = models.TextField(blank=True, null=True,verbose_name="Текст")
-    date_comment = models.CharField(max_length=10, blank=True, null=True, verbose_name="Дата")
+    date_comment = models.CharField(max_length=10, blank=True, null=True, verbose_name="Дата публикации")
     mylike = models.IntegerField(blank=True, null=True, verbose_name="Лайк")
     dislike = models.IntegerField(blank=True, null=True, verbose_name="Дизлайк")
     comment_stars = models.IntegerField(blank=True, null=True, verbose_name="Оценка")
+    date_delete = models.CharField(max_length=10, blank=True, null=True, verbose_name="Дата удаления")
     comment_key = models.ForeignKey(Clients, 
     models.DO_NOTHING, blank=True, null=True, verbose_name="Клиент", )
 
@@ -116,6 +117,9 @@ class Comments(models.Model):
     
     def __str__(self) :
         return f'Отзыв {self.comment_key}'
+
+    def get_absolute_url(self):
+        return reverse("date_comment", kwargs={"date_comment":self.date_comment})
 
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()

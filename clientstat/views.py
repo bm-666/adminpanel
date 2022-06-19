@@ -33,3 +33,13 @@ class ResursComments(View):
 
 class YandexRaiting(Raiting):
     model = Yandex
+
+class ReviewsByDate(ResursComments):
+    
+    @method_decorator(login_required)
+    def get(self, request, date_parse,db_key, resurs):
+        id = Clients.objects.get(db_key=db_key).id
+        date_p = dt.strptime(date_parse, '%d.%m.%Y').date()
+        comments = [i  for i in Comments.objects.exclude(comment_key=id) if dt.strptime(i.date_comment, '%d.%m.%Y').date()<=date_p]
+        comments.sort(key=lambda i: dt.strptime(i.date_comment, "%d.%m.%Y").date(), reverse=True)
+        return render(request, self.template_name, context={'comments':comments})

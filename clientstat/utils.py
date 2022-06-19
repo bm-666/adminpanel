@@ -20,7 +20,8 @@ class DetailClientStatics(View):
     @method_decorator(login_required)
     def get(self, request, db_key):
         id = Clients.objects.get(db_key=db_key).id
-        resurs = self.model.objects.order_by("-date_parse").filter(table_key=id).first()
+        resurs = self.model.objects.order_by("-id").filter(table_key=id).first()
+        
         context={
             self.model.name_model:resurs
             }
@@ -33,7 +34,6 @@ class Raiting(ListView):
     
     @staticmethod
     def rating_date(args):
-        print(args)
         new_date = args.split()[1:4]
         new_date = f'{new_date[1]} {new_date[0]} {new_date[2]}'
         date_rating = dt.strftime(dt.strptime(new_date, "%d %b %Y"), '%d.%m.%Y')
@@ -42,11 +42,14 @@ class Raiting(ListView):
     @method_decorator(login_required)
     def get(self, request, db_key, resurs):
         id = Clients.objects.get(db_key=db_key).id
-        result = self.model.objects.order_by("-date_parse").filter(table_key=id).first()
+        result = self.model.objects.order_by("-id").filter(table_key=id).first()
+        all_raiting = self.model.objects.order_by('-id').filter(table_key=id)#[:10]
         form = RaitingDateForm()
         context = {
+            'rating':all_raiting,
             'result':result,
             'form': form
+
         }
         return render(request, self.template_name, context=context )
         
